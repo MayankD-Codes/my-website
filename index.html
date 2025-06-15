@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVA SUTRAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Base Styles & Animated Background --- */
+        :root {
+            --bg-color-1: #ff3cac;
+            --bg-color-2: #784ba0;
+            --bg-color-3: #2b86c5;
+            --bg-color-4: #5ee7df;
+            --glass-bg: rgba(22, 13, 46, 0.4);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --text-primary: #f0e7ff;
+            --text-secondary: #c9b8e2;
+            --accent-color: #ff3cac;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            background: linear-gradient(-45deg, var(--bg-color-1), var(--bg-color-2), var(--bg-color-3), var(--bg-color-4));
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Main Layout & Containers --- */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            md:flex-direction: row; /* Changed to apply flex-direction for medium screens */
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* --- Glassmorphism Effect --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(19, 13, 44, 0.37);
+        }
+
+        /* --- Sutra List Panel (Left) --- */
+        #sutra-list-container {
+            width: 100%;
+            md:width: 35%; /* Changed to apply width for medium screens */
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #sutra-list-container h2 {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        #sutra-list {
+            list-style: none;
+        }
+
+        .sutra-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sutra-btn .sutra-id {
+            font-family: monospace;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            opacity: 0.7;
+        }
+
+        .sutra-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .sutra-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(255, 60, 172, 0.5);
+        }
+
+        .sutra-btn.active .sutra-id {
+            opacity: 1;
+        }
+
+        /* --- Sutra Detail Panel (Right) --- */
+        #sutra-detail-container {
+            width: 100%;
+            md:width: 65%; /* Changed to apply width for medium screens */
+            max-height: 80vh;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #sutra-detail-content h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            line-height: 1.2;
+        }
+
+        #sutra-detail-content .sutra-text-block {
+            margin: 2rem 0;
+        }
+
+        #sutra-detail-content .sutra-text-block h3 {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        #sutra-detail-content .sutra-text-block p {
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        #sutra-detail-content .sutra-text-block .category {
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .commentary h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--accent-color);
+        }
+        
+        .commentary p, .commentary li {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .commentary ol, .commentary ul {
+            padding-left: 2rem;
+        }
+        
+        .commentary b {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .commentary .italic {
+            font-style: italic;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            border-radius: 5px;
+            display: block;
+        }
+
+        #sutra-detail-content .source {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Custom Scrollbar --- */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #ff6ac1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            #sutra-list-container, #sutra-detail-container {
+                width: 100%;
+                max-height: 45vh;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-container">
+        <header>
+            <h1>SHIVA SUTRAS</h1>
+            <p>The 112 Doors to Consciousness </p>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Left Panel: Sutra List -->
+            <aside id="sutra-list-container" class="glass-panel custom-scrollbar">
+                <h2>All 112 Sutras</h2>
+                <ul id="sutra-list">
+                    <!-- JS will populate this -->
+                </ul>
+            </aside>
+
+            <!-- Right Panel: Sutra Detail -->
+            <article id="sutra-detail-container" class="glass-panel custom-scrollbar">
+                <div id="sutra-detail-content">
+                    <!-- JS will populate this -->
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // --- Data for all 112 Sutras ---
+        const sutrasData = [
+          {
+    id: 1,
+    title: 'Awareness Between Two Breaths',
+    sutraText: "Radiant one, this experience may dawn between two breaths. After breath comes in (down) and just before turning up (out) – the beneficence.",
+    category: 'Breath Awareness, Gaps',
+    Commentary: `
+      <p> explains that this is a fundamental and profound technique, often referred to as "Anapanasati Yoga," which was also practiced by Buddha. It involves a very subtle observation of the breath. The key is not to control the breath, but to <em>observe</em> it.</p>
+      
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+      <p>The essence lies in the <b>gap</b> that exists between two breaths. Every breath cycle has four parts:</p>
+      <ol class="list-decimal list-inside ml-4 mt-2 space-y-1">
+        <li>In-breath</li>
+        <li>A pause after in-breath (before turning out)</li>
+        <li>Out-breath</li>
+        <li>A pause after out-breath (before turning in)</li>
+      </ol>
+      <p class="mt-2">This technique focuses on the <b>second and fourth points</b> – the pauses or "junctions."</p>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+      <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+        <li><b>Sit Comfortably:</b> Find a relaxed and comfortable sitting posture.  emphasizes that the posture should be one where you can forget the body.</li>
+        <li><b>Observe the Incoming Breath:</b> Begin to simply watch your breath as it enters your body. Don't force it; let it be natural.</li>
+        <li><b>Notice the Pause After Inhale:</b> As the breath comes fully in (down), there will be a moment—a very brief fraction of a second, or even longer with keen awareness—where the breath <em>stops</em>. This is before it turns around to go out.
+          <p class="italic text-sm text-gray-600 mt-1 pl-4">'s Guidance: "When your breath comes in, observe. For a single moment, or a thousandth part of a moment, there is no breathing — before it turns up, before it turns outward." This is the key: "The gap between the two is of a very short duration, but keen, sincere observation and attention will make you feel the gap."</p></li>
+        <li><b>Observe the Outgoing Breath:</b> Then, watch your breath as it naturally flows out of your body.</li>
+        <li><b>Notice the Pause After Exhale:</b> As the breath fully exits (out), there will be another moment where it <em>stops</em> before turning to come back in.
+          <p class="italic text-sm text-gray-600 mt-1 pl-4">'s Guidance: "When the breath goes out, then again for a single moment, or a part of a moment, breathing stops. Then breathing comes in. Before the breath is turning in or turning out, there is a moment when you are not breathing."</p></li>
+        <li><b>Focus on the Gap (The Beneficence):</b> The "beneficence" or the "happening" occurs in this gap. It is a moment of no-thought, no-ego, no-time.
+          <p class="italic text-sm text-gray-600 mt-1 pl-4">'s Guidance: "If you can feel the gap, Shiva says, the beneficence. Then nothing else is needed. You are blessed, you have known; the thing has happened."</p></li>
+        <li><b>Maintain Alertness:</b> The challenge is to remain alert and aware <em>during</em> this gap. Normally, in these gaps, we fall into unconsciousness. The technique is to bring consciousness to this natural void.
+          <p class="italic text-sm text-gray-600 mt-1 pl-4">'s Guidance: "Because as your awareness will become keen and deep and intense, as your awareness will become bracketed — the whole world is bracketed out; only your breath coming in or going out is your world, the whole arena for your consciousness — suddenly you are bound to feel the gap in which there is no breath."</p></li>
+        <li><b>Do NOT Control Breath:</b>  explicitly states: "You are not to train the breath. Let the breath be as it is. Just let your awareness be keen, sharp, alert." The technique is about awareness, not manipulation.</li>
+        <li><b>Deepening Awareness:</b> To effectively feel the gap,  suggests deepening awareness of the entire breath cycle: "When the breath goes in move with it, and when the breath is going out move with it. Do simply this: going in, going out, with the breath... Be simultaneous with it. Breath and consciousness should become one."</li>
+      </ol>
+      
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+      <p>According to , this gap is the point where life and death meet. Each outgoing breath is a small death, and each incoming breath is a rebirth. The gap between them is a moment of "no-time," a glimpse into eternity and the source of life beyond the cycle of birth and death. By becoming aware in this gap, one transcends the ego and experiences the ultimate reality.</p>
+    `,
+    source: 'Vigyan Bhairav Tantra, Vol 1, Chapter 2, Pages 21-25'
+  },
+  {
+    id: 2,
+    title: 'Equanimity with All Beings',
+    sutraText: "As breath turns from down to up, and again as breath curves up to down – through both these turns, realize.",
+    category: 'Breath Awareness, Transitions',
+    Commentary: `
+      <p> explains that this sutra highlights the continuous, cyclical nature of breath and consciousness. The breath is not two separate lines (incoming and outgoing) but a single, continuous flow with turning points. Realization comes from focusing on these subtle transitions.</p>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+      <p>The breath is a circle, an unbroken continuum. The "turns" are the moments of transformation within this continuum. By being aware of these subtle shifts, one can glimpse the underlying unity and flow of existence.</p>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+      <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+        <li><b>Sit or Lie Comfortably:</b> Find a relaxed position where you can observe your breath without effort.</li>
+        <li><b>Observe the Inhaling Breath:</b> Follow the breath as it enters your body. Feel its movement and direction.</li>
+        <li><b>Notice the Turning Point (Down to Up):</b> As the inhale completes its inward journey, observe the subtle moment where it shifts direction and begins to move outward. It's a very fine curve or pivot point.</li>
+        <li><b>Observe the Exhaling Breath:</b> Follow the breath as it leaves your body. Feel its movement and direction.</li>
+        <li><b>Notice the Turning Point (Up to Down):</b> As the exhale completes its outward journey, observe the subtle moment where it shifts direction and begins to move inward again.</li>
+        <li><b>Maintain Continuous Awareness:</b> The practice is to keep your awareness continuously focused on these "turns" within the breath cycle, without interruption.</li>
+        <li><b>Do Not Interfere:</b> Allow the breath to be natural. Do not try to control or deepen it. The focus is purely on observation of the natural process.</li>
+      </ol>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+      <p> suggests that by realizing these turning points in breath, you begin to understand the ceaseless flow and transformation within existence itself. These moments are doors to the continuous, unchanging consciousness that underlies all movement and change. It helps in recognizing the dynamic balance of life.</p>
+    `,
+    source: 'Vigyan Bhairav Tantra, Vol 1, Chapter 2, Page 25'
+  },
+  {
+    id: 3,
+    title: 'Touch the Energy-Filled Center',
+    sutraText: "Or, whenever in-breath and out-breath fuse, at this instant touch the energy-less, energy-filled center.",
+    category: 'Breath Awareness, Centering',
+    Commentary: `
+      <p> elaborates on this sutra as another variation of breath meditation, but with a unique focus on the central point where the opposing forces of incoming and outgoing breath become one, revealing a paradoxical state of "energy-less, energy-filled" being.</p>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+      <p>This technique points to the ultimate unity that transcends all dualities. At the point where two opposing movements (in-breath and out-breath) "fuse," they cancel each other out, leading to a void that is simultaneously the source of all energy. It's the silent, still center amidst all activity.</p>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+      <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+        <li><b>Observe the Entire Breath Cycle:</b> Sit in a comfortable and relaxed posture. Begin by watching your breath as it comes in and goes out naturally.</li>
+        <li><b>Identify the Fusion Point:</b> Become acutely aware of the precise instant when the incoming breath concludes and the outgoing breath begins, or vice versa. This is not necessarily a pause, but a point of transition where the two seem to merge or become indistinguishable for a micro-moment.</li>
+        <li><b>Touch the Center:</b> At this moment of "fusion," shift your awareness to a subtle, central point within your being. This point is described as "energy-less" because there is no active movement or effort, yet "energy-filled" because it is the potential source of all energy.</li>
+        <li><b>Do Not Force or Seek:</b>  warns against trying to locate this point intellectually or forcefully. It is a subtle realization that "touches" you as you become deeply aware of the breath's natural fusion. It is a moment of spontaneous insight.</li>
+        <li><b>Relax and Allow:</b> The key is deep relaxation and allowing this moment of fusion to reveal itself. The more relaxed and non-interfering you are, the more likely you are to perceive this paradoxical center.</li>
+      </ol>
+
+      <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+      <p>This technique is about experiencing the ultimate balance where opposites meet and dissolve. The "energy-less, energy-filled center" is the void that is full, the silence that contains all sound. It is a direct experience of the non-dual reality that underpins all phenomena, where the individual self is momentarily transcended and fused with the universal. This deep stillness is the source of inner peace and freedom.</p>
+    `,
+    source: 'Vigyan Bhairav Tantra, Vol 1, Chapter 2, Page 25-26'
+  },
+  // Add placeholders for the remaining 109 sutras
+  // आप यहां अनुरोध पर और विवरण जोड़ सकते हैं
+  { id: 4, title: 'Universal Pause, Self Vanishes', sutraText: "Or, when breath is all out (up) and stopped of itself, or all in (down) and stopped -in such universal pause, one’s small self vanishes. This is difficult only for the impure.", category: 'Breath Awareness, Pauses, Ego Dissolution', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 5, title: 'Attention Between Eyebrows, Light Shower', sutraText: "Attention between Eyebrows, let mind be before thought. Let form fill with breath essence to the top of the head and there shower as light.", category: 'Third Eye, Visualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 6, title: 'Attention Between Two Breaths in Worldly Activities', sutraText: "When in worldly activities, keep attention between two breaths, and so practicing, in a few days be born anew.", category: 'Breath Awareness, Integration', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 7, title: 'Intangible Breath to Heart, Control Dreams', sutraText: "With intangible breath in center of forehead, as this reaches the heart at the moment of sleep, have direction over dreams and over death itself.", category: 'Third Eye, Sleep, Death', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 8, title: 'Devotion at Breath Junctions', sutraText: "With utmost devotion, center on the two junctions of breath and know the knower.", category: 'Breath Awareness, Devotion, Self-Inquiry', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 9, title: 'Lie Down as Dead, Emotional Immersion', sutraText: "Lie down as dead. Enraged in wrath, stay so. Or stare without moving an eyelash. Or suck something and become the sucking.", category: 'Stillness, Emotional Immersion, Sensory Focus', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 10, title: 'Caress as Everlasting Life', sutraText: "While being caressed, Sweet Princess, enter the caress as everlasting life.", category: 'Sensory Immersion, Love', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 11, title: 'Stop Senses at Ant Creeping', sutraText: "Stop the doors of the senses when feeling the creeping of an ant. Then.", category: 'Sensory Withdrawal, Detachment', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 12, title: 'Become Weightless', sutraText: "When on a bed or a seat, let yourself become weightless, beyond mind.", category: 'Body Sensation, Weightlessness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 13, title: 'Peacock Tail Senses in Space', sutraText: "Or, imagine the five coloured circles of the peacock tail to be your five senses in illimitable space. Now let their beauty melt within. Similarly, at any point in space or on a wall – untill the point dissolves. Then your wish for another comes true.", category: 'Visualization, Concentration, Sensory Dissolution', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 14, title: 'Attention in Spinal Nerve', sutraText: "Place your whole attention in the nerve, delicate as the lotus thread, in the center of your spinal column. In such be transformed.", category: 'Spinal Centers, Energy Flow', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 15, title: 'Closing Head Openings, Inclusive Space', sutraText: "Closing the seven openings of the head with your hands, a space between your eyes becomes all-inclusive.", category: 'Sensory Withdrawal, Third Eye', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 16, title: 'Senses Absorbed in Heart', sutraText: "Blessed One, as senses are absorbed in the Heart, reach the center of the lotus.", category: 'Heart Center, Sensory Absorption', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 17, title: 'Unminding Mind, Keep in the Middle', sutraText: "Unminding mind, keep in the middle – until.", category: 'Middle Path, Duality Transcendence', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 18, title: 'Look Lovingly at Object', sutraText: "Look lovingly at some object. Do not go to another object. Here in the middle of the object – the blessing.", category: 'Loving Gaze, Single-Pointed Focus', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 19, title: 'Sit on Buttocks Only', sutraText: "Without support for feet or hands, sit only on buttocks. Suddenly the centering.", category: 'Physical Balance, Centering', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 20, title: 'Rhythmic Swaying in Vehicle', sutraText: "In a moving vehicle, by rhythmically swaying, experience. Or in a still vehicle, by letting yourself swing in slowing invisible circles.", category: 'Rhythmic Movement, Detachment', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 21, title: 'Pierce Form, Inner Purity', sutraText: "Pierce some part of you nectar filled form with a pin, and gently enter the piercing and attain to the inner purity.", category: 'Pain Awareness, Disidentification', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 22, title: 'Past Happening, Form Transformed', sutraText: "Let attention be at a place where you are seeing some past happening, and even your form, having lost its present characteristics, is transformed.", category: 'Detached Observation, Memory', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 23, title: 'Feel Object, Absence, Then Realize', sutraText: "Feel an object before you. Feel the absence of all other objects but this one. Then leaving aside the object-feeling And the absence-feeling, Realize.", category: 'Object Focus, Void', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 24, title: 'Mood, Remain Centered', sutraText: "When a mood against someone or for someone arises, Do not place it on the person in question, But remain centered.", category: 'Emotional Awareness, Centering', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 25, title: 'Impulse, Stop', sutraText: "Just as you have the impulse To do something, Stop.", category: 'Impulse Control, Sudden Cessation', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 26, title: 'Desire, Consider, Quit', sutraText: "When some desire comes, consider it. Then, suddenly, quit it.", category: 'Desire Awareness, Non-Suppression', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 27, title: 'Exhaustion, Drop, Be Whole', sutraText: "Roam about until exhausted and then, dropping to the ground, in this dropping be whole.", category: 'Physical Exhaustion, Surrender', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 28, title: 'Deprivation, Transcend', sutraText: "Suppose you are gradually being deprived of strength or of knowledge. At the instant of deprivation, transcend.", category: 'Deprivation, Transcendence', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 29, title: 'Devotion Frees', sutraText: "Devotion frees.", category: 'Devotion, Liberation', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 30, title: 'Eyes Closed, Inner Being', sutraText: "Eyes closed, See your inner being in detail. Thus see your true nature.", category: 'Inner Vision, Self-Realization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 31, title: 'Bowl, Objectless Awareness', sutraText: "Look upon a bowl without seeing the sides or the material. In a few moments become aware.", category: 'Form Perception, Objectless Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 32, title: 'First Time Perception', sutraText: "See as if for the first time A beauteous person Or an ordinary object.", category: 'Fresh Perception, Presence', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 33, title: 'Blue Sky, Serenity', sutraText: "Simply by looking into the blue sky Beyond the clouds, the serenity.", category: 'Sky Gazing, Emptiness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 34, title: 'Mystical Teaching, Stillness, Freedom', sutraText: "Listen while the ultimate mystical teaching is imparted. Eyes still, without blinking, at once, become absolutely free.", category: 'Receptive Listening, Stillness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 35, title: 'Deep Well, Wondrousness', sutraText: "At the edge of a deep well look steadily into its depths until – the wondrousness.", category: 'Depth Gazing, Mystery', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 36, title: 'Object Withdrawal, Thought Withdrawal', sutraText: "Look upon some object, Then slowly withdraw Your sight from it, Then slowly withdraw Your thought from it. Then.", category: 'Object Withdrawal, Thought Withdrawal', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 37, title: 'Sanskrit Letters, Sensory Refinement', sutraText: "Devi, Imagine Sanskrit letters in these Honey filled foci of awareness, First as letters, The more subtly as sounds, Then as most subtle feeling. Then, leaving them aside, be free.", category: 'Sound, Sensory Refinement', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 38, title: 'Center of Sound, Inner Sound', sutraText: "Bathe in the center of sound, As in the continuous sound of a waterfall. Or, by putting the fingers in the ears, Hear the sound of sounds.", category: 'Sound Immersion, Inner Sound', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 39, title: 'Intone Sound, Soundfulness', sutraText: "Intone a sound, As AUM... Slowly, As sound enters soundfulness, So do you.", category: 'Mantra, Sound Subtlety', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 40, title: 'Letter Sound, Awake', sutraText: "In the beginning and gradual refinement of the sound of any letter, Awake.", category: 'Sound Awareness, Alertness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 41, title: 'Stringed Instruments, Central Sound', sutraText: "While listening to stringed instruments, Hear their composite central sound; Thus omnipresence.", category: 'Music, Central Sound', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 42, title: 'Sound Audibly to Silent Harmony', sutraText: "Intone a sound audibly, Then less and less audibly As feeling deepens Into this silent harmony.", category: 'Sound Refinement, Silent Harmony', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 43, title: 'Mouth Open, Tongue Focus, HH Sound', sutraText: "With mouth slightly open, Keep mind in the middle of the tongue. Or, as breath comes silently in, Feel the sound 'HH'.", category: 'Tongue Focus, Breath Sound', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 44, title: 'Center on AUM without A or M', sutraText: "Center on the sound 'AUM' Without any 'A' or 'M'.", category: 'Mantra, Subtle Hearing', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 45, title: 'Silently Intone AH, HH, Spontaneity', sutraText: "Silently intone a word ending in 'AH'. Then in the 'HH', Effortlessly, the spontaneity.", category: 'Exhalation, Soundless Silence', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 46, title: 'Stopping Ears, Rectum, Enter Sound', sutraText: "Stopping ears by pressing And the rectum by contracting, Enter the sound.", category: 'Sensory Blockage, Inner Sound', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 47, title: 'Enter Name, All Sounds', sutraText: "Enter the sound of your name And, through this sound, All sounds.", category: 'Name as Mantra, Universal Sound', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 48, title: 'Sexual Union, Attentive on Fire', sutraText: "At the start of sexual union Keep attentive on the fire in the beginning, And so continuing, Avoid the embers in the end.", category: 'Sexual Energy, Sustained Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 49, title: 'Embrace, Senses Shaken, Enter Shaking', sutraText: "When in such embrace your senses are shaken as leaves, Enter this shaking.", category: 'Sexual Energy, Full Immersion', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 50, title: 'Remembering Union, Transformation', sutraText: "Even remembering union, Without the embrace, Transformation.", category: 'Sexual Memory, Non-Dual Experience', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 51, title: 'Joy of Friend, Permeate Joy', sutraText: "On joyously seeing a long-absent friend, Permeate this joy.", category: 'Joy Awareness, Emotional Transformation', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 52, title: 'Eating/Drinking, Become Taste', sutraText: "When eating or drinking, Become the taste of food or drink, And be filled.", category: 'Taste Awareness, Sensory Immersion', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 53, title: 'Sensory Awareness, Ever Living', sutraText: "O lotus eyed one, Sweet of touch, When singing, seeing, tasting, Be aware you are and discover the ever living.", category: 'Self-Remembering, Sensory Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 54, title: 'Satisfaction, Actualize', sutraText: "Wherever satisfaction is found, In whatever act, Actualize this.", category: 'Satisfaction Focus, Positive Actualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 55, title: 'Sleep Point, Being Revealed', sutraText: "At the point of sleep, When the sleep has not yet come And the external wakefulness vanishes, At this point Being is revealed.", category: 'Sleep Transition, Gap Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 56, title: 'Illusions Deceive, Indivisible', sutraText: "Illusions deceive, Colors circumscribe, Even divisibles are indivisible.", category: 'Illusion, Non-Duality', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 57, title: 'Extreme Desire, Undisturbed', sutraText: "In moods of extreme desire Be undisturbed.", category: 'Desire Awareness, Witnessing', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 58, title: 'Universe as Juggling, Picture Show', sutraText: "This so-called universe Appears as a juggling, A picture show. To be happy, look upon it so.", category: 'World as Play, Detached Observation', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 59, title: 'Neither Pleasure Nor Pain, Between', sutraText: "O Beloved, Put attention neither on pleasure nor on pain, But between these.", category: 'Duality Transcendence, Middle Path', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 60, title: 'Objects/Desires, Accept, Transform', sutraText: "Objects and desires Exist in me as in others. So accepting, Let them be transformed.", category: 'Acceptance, Non-Judgment', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 61, title: 'Waves/Water, Flames/Fire, Universal With Us', sutraText: "As waves come with water And flames with fire, So the Universal waves with us.", category: 'Universal Oneness, Ego Dissolution', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 62, title: 'Mind Wandering, At This Very Place', sutraText: "Wherever your mind is wandering, Internally or externally, At this very place, this.", category: 'Mind Wandering, Focus Shift', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 63, title: 'Vividly Aware Through Sense, Keep Awareness', sutraText: "When vividly aware Through some particular sense, Keep in the awareness.", category: 'Sensory Awareness, Inner Focus', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 64, title: 'Intense Moments, Uninterrupted Awareness', sutraText: "At the start of sneezing, during fright, In anxiety, above a chasm, flying in battle, In extreme curiosity, at the beginning of hunger, At the end of hunger, Be uninterruptedly aware.", category: 'Intense Moments, Alertness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 65, title: 'Purity/Impurity, Know Nothing', sutraText: "The purity of other teachings Is an impurity to us. In reality, Know nothing as pure or impure.", category: 'Non-Judgment, Duality Transcendence', Commentary: `
+    <p> explains that this sutra highlights the paradoxical nature of life and the mind's tendency to create distinctions. The mind constantly labels and judges, creating categories of "pure" and "impure," "good" and "bad." This judging mind, according to Tantra, is the root of suffering and prevents direct experience.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Understanding the Paradox:</h3>
+    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+      <li><b>"The purity of other teachings is an impurity to us."</b>: This is not a condemnation of other teachings, but a statement about the nature of a seeker's journey. When you are on <em>your</em> path, if you constantly look at other paths and compare, judge, or try to incorporate their "purity," it becomes a distraction, an "impurity" to your unique journey. Your focus should be solely on <em>your</em> technique and <em>your</em> inner work.</li>
+      <li><b>"In reality, know nothing as pure or impure."</b>: This is the ultimate realization. Beyond the mind's categories, existence simply <em>is</em>. There is no inherent purity or impurity. These are mental constructs. The enlightened mind sees things as they are, without imposing judgmental labels.</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Practice (as implied by 's discourse):</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Observe Your Judging Mind:</b> Throughout your day, become a witness to your own mind's tendency to label everything as "good" or "bad," "pure" or "impure." Notice how you categorize people, situations, your own thoughts, and feelings.</li>
+      <li><b>Drop Comparison and Condemnation:</b> When engaging with other teachings, philosophies, or ways of life, consciously refrain from comparing them to your own path or condemning them. Recognize that each path is valid for those on it, and preoccupation with others' paths is a distraction from your own.</li>
+      <li><b>Accept What Is (Non-Judgment):</b> Begin to cultivate an attitude of acceptance towards everything, both internally and externally. If a "bad" thought arises, do not condemn it; simply observe it. If a "good" thought arises, do not cling to it; simply observe it. The goal is to see phenomena without the overlay of judgment.</li>
+      <li><b>Move Beyond Dualities:</b> This practice helps you transcend the dualistic mind. When you stop creating "pure" and "impure" categories, you move into a state of oneness, where everything is simply part of the whole. This is the path to inner purity, which is achieved not by purifying the world, but by purifying your perception.</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Core Message:</h3>
+    <p>Tantra is non-judgmental. It embraces everything. To divide and judge is the mind's way; to accept and be aware is the tantric way.</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 1, Page 2'
+  },
+  { id: 66, title: 'Unsame Same to Friend/Stranger, Honor/Dishonor', sutraText: "Be the unsame same to friend as to stranger, in honor and dishonor.", category: 'Unchanging Self, Periphery vs. Center', Commentary: `
+    <p>This sutra guides you towards cultivating inner equanimity, a state where your inner being remains undisturbed by external circumstances, particularly in relationships and social situations.  explains that the desire for recognition, honor, or the fear of dishonor creates continuous turmoil within.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Understanding the Principle:</h3>
+    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+      <li><b>"Be the unsame same..."</b>: This paradoxical phrasing means your outward behavior might differ based on the situation (e.g., you might talk differently to a friend than a stranger), but your <em>inner state</em> should remain the same. Your inner being, your witnessing consciousness, remains unaffected by these external distinctions.</li>
+      <li><b>Friend as to Stranger</b>: The mind naturally creates preferences and attachments. You behave differently with friends (love, attachment) versus strangers (indifference, caution). This sutra challenges you to transcend these mental biases in your inner being.</li>
+      <li><b>In Honor and Dishonor</b>: When honored, the ego inflates; when dishonored, it shrinks or feels wounded. Both states distract you from your center.</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Practice (as implied by 's discourse):</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Observe Inner Reactions:</b> Become acutely aware of how your inner state changes when you interact with a friend compared to a stranger, or when you receive praise versus criticism. Notice the subtle shifts in your emotions, thoughts, and bodily sensations.</li>
+      <li><b>Separate Inner from Outer:</b> Recognize that your social roles and external interactions are merely performances or necessary conventions. Your true self, your consciousness, is distinct from these roles.</li>
+      <li><b>Cultivate Inner Stillness:</b> When engaging with others, or when faced with situations of honor or dishonor, consciously maintain an inner stillness. Let the external events unfold, but do not allow them to disturb your inner peace.</li>
+      <li><b>Witness, Don't Identify:</b> Observe the feelings that arise (e.g., pleasure from praise, pain from insult) but do not identify with them. See them as passing clouds in the sky of your consciousness.</li>
+      <li><b>Practice Non-Preference:</b> Gradually work towards a state where you have no strong inner preference for honor over dishonor, or for a friend's company over a stranger's. This does not mean you become indifferent or rude; it means your inner peace is not contingent on external validation or relationships.</li>
+      <li><b>Realize the Changeless Core:</b> Through this practice, you realize that your essential being remains "the same" (unchanging) regardless of the "unsame" (changing) external circumstances or relationships. This leads to profound inner freedom.</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Core Message:</h3>
+    <p>Do not let outer relationships and social opinions dictate your inner state. Remain centered and unperturbed, recognizing the unchanging essence within yourself.</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 1, Page 2'
+  },
+  { id: 67, title: 'Change, Consume Change', sutraText: "Here is the sphere of change, change, change. Through change consume change.", category: 'Change Acceptance, Non-Resistance', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 68, title: 'Hen Mothers Chicks, Mother Knowings/Doings', sutraText: "As a hen mothers her chicks, mother particular knowings, particular doings, in reality.", category: 'Authenticity, Present Moment', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 69, title: 'Bondage/Freedom Relative, Universe Reflects Minds', sutraText: "Since, in truth, Bondage and freedom are relative, These words are only for those Terrified with the universe. This universe is a reflection of minds. As you see many suns in water from one sun, So see bondage and liberation.", category: 'Relativity, Mind as Mirror', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 70, title: 'Essence as Light Rays, Livingness Rises', sutraText: "Consider your essence as light rays From center to center up the vertebrae, And so rises “livingness” in you.", category: 'Energy Ascent, Visualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 71, title: 'Spaces Between, Feel as Lightning', sutraText: "Or in the spaces between, Feel this as lightning.", category: 'Energy Ascent, Visualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 72, title: 'Cosmos as Translucent Living Presence', sutraText: "Feel the cosmos as a translucent ever-living presence.", category: 'Cosmic Awareness, Sensitivity', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 73, title: 'Clear Sky, Enter Clarity', sutraText: "In summer when you see the entire sky Endlessly clear, Enter such clarity.", category: 'Sky Gazing, Emptiness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 74, title: 'Space Absorbed in Head, Brilliance', sutraText: "Shakti, See all space as if already Absorbed in your own head In the brilliance.", category: 'Space Absorption, Visualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 75, title: 'Waking, Sleeping, Dreaming, Know as Light', sutraText: "Waking, sleeping, dreaming, Know you as light.", category: 'States of Consciousness, Light Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 76, title: 'Rainy Black Night, Enter Blackness as Form of Forms', sutraText: "In rain during a black night, Enter that blackness As the form of forms.", category: 'Darkness Immersion, Formlessness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 77, title: 'Moonless Night, Close Eyes, See Blackness, Faults Disappear', sutraText: "When a moonless rainy night is not present, close your eyes, see blackness. So, faults disappear forever.", category: 'Darkness Visualization, Inner Purity', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 78, title: 'Attention Alights, At This Point, Experience', sutraText: "Wherever your attention alights, At this very point, Experience.", category: 'Attention Focus, Self-Experience', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 79, title: 'Fire Rising Through Form, Body Burns, Not You', sutraText: "Focus on fire rising through your form From the toes up Until the body burns to ashes But not you.", category: 'Body Dissolution, Witnessing', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 80, title: 'Make Believe World Burns, Become Being Above Human', sutraText: "Meditate On the make believe world as burning to ashes, And become being above human.", category: 'World Dissolution, Superhuman State', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 81, title: 'Letters to Words, Worlds to Principles, Converging in Being', sutraText: "As, subjectively, letters flow into words and words into sentences, and as, objectively, circles flow into worlds and worlds into principles, find at last these converging in our being.", category: 'Convergence, Oneness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 82, title: 'Feel: My Thought, I-ness, Organs - Me', sutraText: "Feel: my thought, I-ness, internal organs – me.", category: 'Feeling, Self-Inquiry', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 83, title: 'Before Desire/Knowing, How Can I Say I Am? Dissolve in Beauty', sutraText: "Before desire And before knowing, How can I say I am? Consider. Dissolve in the beauty.", category: 'Desire/Knowing Gap, Ego Dissolution', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 84, title: 'Toss Body Attachment, I Am Everywhere, Joyous', sutraText: "Toss attachment for body aside, Realizing I am everywhere. One who is everywhere is joyous.", category: 'Body Detachment, Omnipresence', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 85, title: 'Thinking No Thing, Limited-Self Unlimit', sutraText: "Thinking no thing will limited-self unlimit.", category: 'No-Thought, Limitless Self', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 86, title: 'Contemplate Beyond Perception/Grasping/Not Being', sutraText: "Suppose you contemplate Something beyond perception, Beyond grasping, Beyond not being – you.", category: 'Transcendence, Pure Subjectivity', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 87, title: 'I Am Existing, Mine, This Is This, Know Illimitably', sutraText: "I am existing. This is mine. This is this. O, beloved, even in such know illimitably.", category: 'Existential Feeling, Boundless Self', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 88, title: 'Perceive Through Knowing, Knower-Known Unity', sutraText: "Each thing is perceived through knowing. The self shines in space through knowing. Perceive one being as knower and known.", category: 'Knower-Known Unity, Witnessing', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 89, title: 'Mind, Knowing, Breath, Form Be Included', sutraText: "Beloved, At this moment, Let mind, knowing, breath, form, Be included.", category: 'Inclusiveness, Wholeness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 90, title: 'Touching Eyeballs, Lightness to Heart/Cosmos', sutraText: "Touching eyeballs as a feather, Lightness between them opens into the heart And there permeates the cosmos.", category: 'Sensory Focus, Energy Flow', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 91, title: 'Etheric Presence Pervading Form', sutraText: "Kind Devi, Enter etheric presence Pervading far above and below your form.", category: 'Etheric Body, Aura Awareness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 92, title: 'Mindstuff in Inexpressible Fineness, Heart Centering', sutraText: "Put mindstuff in such inexpressible fineness Above, below and in your heart.", category: 'Consciousness Refinement, Heart Centering', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 93, title: 'Area of Form as Limitlessly Spacious', sutraText: "Consider any area of your present form As limitlessly spacious.", category: 'Body Expansion, Limitless Space', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 94, title: 'Substance Saturated with Cosmic Essence', sutraText: "Feel your substance, Bones, flesh, blood, Saturated with cosmic essence.", category: 'Cosmic Saturation, Body as Divine', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 95, title: 'Creativity Permeating Breasts, Delicate Configurations', sutraText: "Feel the fine qualities of creativity Permeating your breasts And assuming delicate configurations.", category: 'Feminine Creativity, Breast Focus', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 96, title: 'Abide in Endless Space, End of Mind Pressures', sutraText: "Abide in some place endlessly spacious, Clear of trees, hills, habitations. Thence comes the end of mind pressures.", category: 'Solitude, Mind Stillness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 97, title: 'Plenum as Body of Bliss', sutraText: "Consider the plenum To be your own body of bliss.", category: 'Cosmic Body, Bliss', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 98, title: 'Easy Position, Pervade Armpits Into Peace', sutraText: "In any easy position Gradually pervade an area between the armpits Into great peace.", category: 'Heart Center, Peace', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 99, title: 'Pervading All Directions, Far/Near', sutraText: "Feel yourself as pervading all directions, Far, near.", category: 'Omnipresence, Boundlessness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 100, title: 'Appreciation Same, Remain Subjective', sutraText: "The appreciation of objects and subjects Is the same for an enlightened As for an unenlightened person. The former has one greatness: He remains in the subjective mood, Not lost in things.", category: 'Subjective Mood, Detachment', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 101, title: 'Believe Omniscient, Omnipotent, Pervading', sutraText: "Believe omniscient, omnipotent, pervading.", category: 'Belief, Divine Qualities', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 102, title: 'Imagine Spirit Within/Around, Universe Spiritualizes', sutraText: "Imagine spirit simultaneously Within and around you Until the entire universe spiritualizes.", category: 'Imagination, Spiritualization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 103, title: 'Entire Consciousness at Start of Desire/Knowing', sutraText: "With your entire consciousness In the very start of desire, of knowing, know.", category: 'Desire/Knowing Awareness, Total Consciousness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 104, title: 'Particular Perception Limited, Disappearing in Omnipotence', sutraText: "O Shakti, Each particular perception is limited, Disappearing in omnipotence.", category: 'Limited Perception, Unlimited Reality', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 105, title: 'Forms Inseparate, Omnipresent Being, Realize as Consciousness', sutraText: "In truth forms are inseparate. Inseparate are omnipresent being And your own form. Realize each as made of this consciousness.", category: 'Form Unity, Consciousness Realization', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 106, title: 'Feel Each Person\'s Consciousness as Your Own, Become Each Being', sutraText: "Feel the consciousness of each person As your own consciousness. So, leaving aside concern for your self, Become each being.", category: 'Empathy, Universal Consciousness', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 107, title: 'Consciousness as Each Being, Nothing Else Exists', sutraText: "This consciousness exists as each being, And nothing else exists.", category: 'Consciousness as Reality, Non-Dualism', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 108, title: 'Consciousness is Spirit of Guidance, Be This One', sutraText: "This consciousness is the spirit of guidance Of each one. Be this one.", category: 'Inner Guide, Trust', Commentary: "<p class='italic'>Is sutra ke liye  ki vistarit tippani anurodh par yahan jodi jayegi.</p>" },
+  { id: 109, title: 'Passive Form, Empty Room, Walls of Skin - Empty', sutraText: "Suppose your passive form to be an empty room With walls of skin – empty.", category: 'Body as Empty Space, Ego Dissolution', Commentary: `
+    <p> explains that this is one of the most beautiful techniques for cultivating emptiness. It helps in disidentifying from the body and the inner content of the mind.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+    <p>The mind constantly seeks to be filled with thoughts, emotions, and external stimuli. It resists emptiness because it equates being empty with non-existence. This technique helps to bypass that resistance by treating the body as a mere container, and the internal space as vacant, allowing true silence and bliss to descend.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Sit in a Passive State:</b> Find a meditative posture, such as SIDDHASANA (as Buddha sits), where you are relaxed and inactive. Ensure your backbone is straight and the rest of your body is relaxed, "as if the whole body is hanging on the backbone."</li>
+      <li><b>Relax and Calm Down:</b> Close your eyes. Spend a few moments consciously relaxing your body and calming your mind. Become "calmer and calmer and calmer" to tune in.</li>
+      <li><b>Feel the Body as Walls of Skin:</b> Begin to imagine and feel your body as nothing more than thin "walls of skin." Focus on the sensation that there is "nothing inside," no solid mass, no inner content. The "house is vacant."</li>
+      <li><b>Observe Thoughts as Clouds:</b> Thoughts will continue to pass. Do not identify with them. Instead, visualize them as "clouds moving in a vacant sky." See them as "rootless" and not belonging to you or anyone else.  stresses: "They don’t belong to anyone, they don’t have any roots."</li>
+      <li><b>Resist Identification:</b> Your mind will try to "catch some thought, be identified with it, move with it, enjoy it, indulge in it." Consciously resist this urge. Tell yourself, "there is no one to indulge, there is no one to fight, there is no one to do anything with this thought."</li>
+      <li><b>Allow Gaps to Appear:</b> By consistently practicing non-identification, thoughts will gradually slow down and become fewer. You will begin to experience longer and longer intervals of "cloudless sky" where there is no thought.</li>
+      <li><b>Experience Emptiness and Bliss:</b> In these intervals, you will directly "know for the first time what emptiness is." This glimpse,  states, "will fill you with such deep bliss you cannot imagine." It clarifies that "you will not be there, so how can I say you will be filled with happiness? Happiness will be there, vibrating – but you will not be there."</li>
+      <li><b>Observe Disturbances Pass Through:</b> When you are empty, external disturbances (traffic, noise) will "come and pass through the emptiness without touching it," because "no one can create a disturbance" if "you are not there" (as the ego).</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+    <p>This technique directly addresses the ego and its attachment to inner content. By treating the body as an empty vessel and thoughts as external phenomena, one creates a space for the true, empty consciousness to emerge. This emptiness is not a void of nothingness but a plenum of bliss, silence, and peace, freed from the self-created disturbances of the ego. It is a direct route to Nirvana, which Buddha describes as the state where "you are not there."</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 39, Page 518-520'
+  },
+  { id: 110, title: 'Gracious One, Play. Universe as Empty Shell, Mind Frolics Infinitely.', sutraText: "Gracious One, play. The universe is an empty shell Wherein your mind frolics infinitely.", category: 'Playfulness, Non-Seriousness', Commentary: `
+    <p> explains that this technique extends the meditative state into daily activity. Since complete passivity is not sustainable throughout the day, this sutra offers a way to be meditative while active.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+    <p>The distinction between "work" and "play" is crucial. "Work" is typically serious, burdened, and motivated by a future result. "Play" is enjoyed for its own sake, without worry about the outcome. By transforming all activities into "play," one can remain present and unburdened, allowing inner bliss to emerge.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Adopt a Playful Attitude:</b> Consciously decide to approach all your activities, whether daily chores, work, or interactions, as if they are a game, a "play," rather than serious "work."</li>
+      <li><b>Focus on the Activity Itself:</b> Be totally present in the action you are performing. The enjoyment should come from the *process* of doing, not from the *result* it aims to achieve.  states: "The very process is blissful."</li>
+      <li><b>Relinquish Result-Orientation:</b> Let go of anxiety, worry, or responsibility for the outcome. While a result may naturally occur, it should not be the primary motive on your mind. This is similar to Krishna's teaching to Arjuna: "leave the future in the hands of the Divine. The result of your activity is in the hands of the Divine, you simply do. This simply doing becomes a play."</li>
+      <li><b>Observe the Mind as Frolicking:</b> When thoughts arise during meditation or activity, see them as your mind "frolicking," "just like children playing, jumping out of overflowing energy."</li>
+      <li><b>Do Not Take Thoughts Seriously:</b> Whether a thought is "good" or "bad," do not get serious about it. Don't feel guilty about negative thoughts, nor become egoistic about positive ones. Recognize them as mere expressions of overflowing energy.</li>
+      <li><b>Practice Detached Observation:</b> Be a spectator of your mind. "Look, and enjoy it. Don’t say good, don’t say bad, don’t condemn, don’t appreciate, because these are serious things."</li>
+      <li><b>Do Not Follow or Fight Thoughts:</b> If a thought or image appears (e.g., "a naked woman comes onto your screen"),  advises: "Don’t try to push her out... And don’t follow her. If you follow then you will be in trouble. Don’t follow, don’t fight – this is the rule. Just look and be playful."</li>
+      <li><b>Engage in Playful Activities:</b> Consciously allocate time for activities that are purely playful and have no profit motive, such as playing with children, painting, playing music, jumping, or dancing alone in a room. This trains the mind to be non-calculating and present.</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+    <p>This technique dismantles the seriousness and calculation that binds the mind and prevents deep meditation. The "businessman" mentality, which seeks profit even in spiritual endeavors, hinders progress. By cultivating playfulness, one reclaims the inherent joy of being and allows the mind to become light and unburdened. Seriousness is the bridge to entanglement; playfulness is the path to freedom and inner silence.</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 39, Page 522-526'
+  },
+  { id: 111, title: 'Meditate on Knowing/Not-Knowing, Existing/Non-Existing, Leave Both Aside', sutraText: "Sweet heartated One, Meditate on knowing and not-knowing, Existing and non-existing. Then leave both aside that you may be.", category: 'Duality Transcendence, Emptiness', Commentary: `
+    <p> explains this technique as a powerful method to transcend dualities and realize the ultimate reality that lies beyond all conceptual pairs.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+    <p>The mind operates through polarities (knowing/not-knowing, existing/non-existing, good/bad, love/hate). It tends to cling to one pole while rejecting the other. This clinging prevents true emptiness and realization. By contemplating both poles and then consciously releasing attachment to both, one can transcend the mind's limitations and simply *be* in the state of pure awareness, which is beyond all concepts.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Choose a Polarity:</b> Select any pair of opposite concepts or experiences to meditate upon. Examples given by  include:
+        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+          <li>Knowing and Not-Knowing</li>
+          <li>Existing and Non-Existing</li>
+          <li>Birth and Death</li>
+          <li>Happiness and Unhappiness</li>
+          <li>Love and Hate</li>
+          <li>Friendship and Enmity</li>
+          <li>Wealth and Poverty</li>
+          <li>Knowledge and Ignorance</li>
+        </ul>
+      </li>
+      <li><b>Meditate on the First Pole:</b> Bring your full awareness to the first concept or experience. For example, if "knowing," focus on what it means to know, the experience of knowledge.</li>
+      <li><b>Meditate on the Second Pole:</b> Then, shift your awareness to the opposite concept. For example, if "not-knowing," focus on the experience of ignorance or not knowing something.</li>
+      <li><b>Contemplate Both Extensively:</b> Deeply engage with both sides of the polarity. If meditating on birth and death, imagine your conception, growth, old age, and finally your body on a funeral pyre.</li>
+      <li><b>Leave Both Aside:</b> After fully contemplating both poles, consciously release your identification and clinging to *both* of them. This is the crucial step.  states: "Then put both aside – the one who was born and the one who has died. Just put both aside and then look within. There you are – that which is never born and which is never going to die."</li>
+      <li><b>Experience Emptiness:</b> When you successfully push aside both positive and negative aspects, you will find yourself in a state of emptiness. This emptiness is not a void but a profound revelation of your true self.</li>
+      <li><b>Realize the Beyond:</b> In this state of emptiness, you become aware of "the beyond, that which transcends" all dualities. You are "neither ignorant nor knowing," neither wise nor ignorant, neither sad nor happy, etc.</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+    <p>This technique is designed to break the mind's habit of clinging, which is the ultimate barrier to self-realization. The mind, being dualistic, cannot conceive of a state beyond opposites. By consciously putting aside both poles of a duality, one steps out of the mind's framework and into the non-dual reality of pure consciousness, which  refers to as "emptiness." This emptiness is not a void of nothingness but a plenum of bliss, silence, and peace, freed from the self-created disturbances of the ego. It is a direct route to Nirvana, which Buddha describes as the state where "you are not there."</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 39, Page 527, 517'
+  },
+  { id: 112, title: 'Enter Space, Supportless, Eternal, Still', sutraText: "Enter space, support less, eternal, still.", category: 'Supportlessness, Inner Space', Commentary: `
+    <p> describes this as one of the ultimate, most delicate, and difficult techniques, because it requires profound courage to drop all forms of support and face complete aloneness.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">The Core Principle:</h3>
+    <p>The mind constantly seeks support—from mantras, scriptures, masters, relationships, ideas, or even its own thoughts. This need for support stems from a deep-seated fear of being lost or disappearing. True liberation, however, lies in realizing that your authentic being is self-sufficient, requiring no external or internal crutch. This supportless state is the true inner space: eternal and still.</p>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Step-by-Step Process:</h3>
+    <ol class="list-decimal list-inside ml-4 mt-2 space-y-2">
+      <li><b>Identify and Drop All Supports:</b> Consciously recognize and then release any and all forms of support you rely on. This includes:
+        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+          <li><b>Mental Supports:</b> Mantras, specific thoughts, concepts, philosophies.</li>
+          <li><b>External Supports:</b> Gods, scriptures, gurus/masters, relationships, material possessions.</li>
+          <li><b>Inner Supports:</b> Even the feeling of "I am doing this" or any sense of inner activity.</li>
+        </ul>
+        <p class="italic text-sm text-gray-600 mt-1 pl-4">'s Guidance: "Drop all supports, mantras, gods, scriptures, whatsoever gives you a support. If you feel you are supported, drop it, and just move inside – supportless."</p>
+      </li>
+      <li><b>Embrace the Fear:</b> As you drop supports, fear will inevitably arise. You might feel scared of being completely lost, as if you're falling into an "infinite abyss." Do not cling back to supports out of this fear. Recognize it as a natural reaction to the ego losing its ground.</li>
+      <li><b>Move Inside, Supportless:</b> With courage, continue to move inward, despite the fear, into a state of absolute non-reliance.</li>
+      <li><b>Experience the Inner Space:</b> As supports dissolve, you will enter the inner space. This space has three qualities:
+        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+          <li><b>Supportless:</b> No anchor, no crutch.</li>
+          <li><b>Eternal:</b> Without beginning or end.</li>
+          <li><b>Still:</b> Absolutely silent, without any sound or ripple. "There is nothing – not even a sound vibrating, not even a ripple. Everything is still."</li>
+        </ul>
+      </li>
+      <li><b>Allow the Ego to Disappear:</b> The ultimate goal is to "disappear from within." When "you are not, God is. When you are not, bliss is." This is a "courage to die" to the ego-self.</li>
+    </ol>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2 text-indigo-600">Underlying Principle:</h3>
+    <p>This technique is about achieving ultimate freedom from all forms of dependence. The ego constantly seeks validation and security through identification with something. By consciously severing these identifications, one collapses the false self and reveals the true, boundless consciousness. This "death" of the ego is the gateway to "life which never dies," or immortality (Amrit). It signifies moving beyond the need for external guidance and realizing the innate, self-luminous nature of being.</p>
+  `,
+    source: 'Vigyan Bhairav Tantra, Vol 2, Chapter 39, Pages 528-530'
+  },
+        ];
+
+        // --- DOM Elements ---
+        const sutraList = document.getElementById('sutra-list');
+        const sutraDetailContent = document.getElementById('sutra-detail-content');
+        const sutraDetailContainer = document.getElementById('sutra-detail-container');
+
+        let currentSutraId = 1;
+
+        // --- Function to render the list of sutras ---
+        function renderSutraList() {
+            let listHTML = '';
+            sutrasData.forEach(sutra => {
+                listHTML += `
+                    <li>
+                        <button class="sutra-btn ${sutra.id === currentSutraId ? 'active' : ''}" data-id="${sutra.id}">
+                            <span class="sutra-id">${sutra.id.toString().padStart(3, '0')}</span>
+                            ${sutra.title}
+                        </button>
+                    </li>
+                `;
+            });
+            sutraList.innerHTML = listHTML;
+        }
+
+        // --- Function to render the details of a selected sutra ---
+        function renderSutraDetail(sutraId) {
+            const sutra = sutrasData.find(s => s.id === sutraId);
+            if (!sutra) {
+                sutraDetailContent.innerHTML = `<div class="placeholder">Sutra not found.</div>`;
+                return;
+            }
+
+            // Add animation class
+            sutraDetailContainer.style.opacity = '0';
+            sutraDetailContainer.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                const detailHTML = `
+                    <h2>Sutra ${sutra.id}: ${sutra.title}</h2>
+                    <div class="sutra-text-block">
+                        <h3>SUTRA TEXT (Core Instruction):</h3>
+                        <p>"${sutra.sutraText}"</p>
+                        <p class="category"><b>Category:</b> ${sutra.category}</p>
+                    </div>
+                    <div class="commentary">
+                        ${sutra.Commentary}
+                    </div>
+                    ${sutra.source ? `<p class="source"><strong>Source:</strong> ${sutra.source}</p>` : ''}
+                `;
+                sutraDetailContent.innerHTML = detailHTML;
+                
+                // Trigger fade-in animation
+                sutraDetailContainer.style.opacity = '1';
+                sutraDetailContainer.style.transform = 'translateY(0)';
+                sutraDetailContainer.scrollTop = 0; // Scroll to top on new sutra
+            }, 150); // Small delay to allow CSS to catch up for animation
+        }
+        
+        // --- Event Listener for sutra selection ---
+        sutraList.addEventListener('click', (e) => {
+            const button = e.target.closest('.sutra-btn');
+            if (button) {
+                const newId = parseInt(button.dataset.id, 10);
+                if (newId !== currentSutraId) {
+                    // Update active state
+                    const oldActive = sutraList.querySelector('.active');
+                    if(oldActive) oldActive.classList.remove('active');
+                    button.classList.add('active');
+                    
+                    currentSutraId = newId;
+                    renderSutraDetail(currentSutraId);
+                }
+            }
+        });
+
+        // --- Initial Load ---
+        window.onload = () => {
+            renderSutraList();
+            renderSutraDetail(currentSutraId);
+        };
+
+    </script>
+</body>
+</html>
